@@ -1,4 +1,8 @@
 <div class="centered">
-  <p id="timer">25:00</p>
-  <button type="button" id="start" ng-click="">Start</button>
+  <!-- <timer id="timer" max-time-unit="'minute'" start-time="1500000" end-time="0" interval="1000" countdown="100">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer> -->
+  <div class="timer">
+    <p ng-show="!home.timer.currentSession">25:00</p>
+    <p ng-show="home.timer.currentSession">{{home.timer.currentTime}}</p>
+  </div>
+  <button type="button" id="start" ng-click="home.timer.manageTimer()">{{ home.timer.currentSession ? 'Reset' : 'Start' }}</button>
 </div>

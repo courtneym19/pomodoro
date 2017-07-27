@@ -1,8 +1,12 @@
 (function() {
-    function HomeCtrl() {
-    }
+    function HomeCtrl(Timer) {
+
+      this.timer = Timer;
+
+    };
+
 
     angular
         .module('pomodoro')
-        .controller('HomeCtrl', [HomeCtrl]);
+        .controller('HomeCtrl', ['Timer', HomeCtrl]);
 })();
