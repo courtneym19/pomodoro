@@ -2,8 +2,8 @@
     function HomeCtrl(Timer) {
 
       this.timer = Timer;
-
-    };
+  
+    }
 
 
     angular
