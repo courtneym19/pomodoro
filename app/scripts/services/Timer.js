@@ -12,7 +12,7 @@
       * @desc Current time remaining.
       * @type {Number}
       */
-      var remainingTime = null;
+      Timer.remainingTime = null;
 
       /**
       * @desc Work Session length (in seconds).
@@ -27,11 +27,11 @@
       */
       var startCount = function(){
         Timer.currentSession = true;
-        remainingTime = WORK_SESSION_LENGTH;
+        Timer.remainingTime = WORK_SESSION_LENGTH;
 
         countdown = $interval(function(){
-          if(remainingTime > 0){
-            remainingTime--;
+          if(Timer.remainingTime > 0){
+            Timer.remainingTime--;
           }
           else{
             Timer.currentSession = false;
@@ -47,7 +47,7 @@
         if(countdown){
           $interval.cancel(countdown);
           Timer.currentSession = false;
-          remainingTime = WORK_SESSION_LENGTH;
+          Timer.remainingTime = WORK_SESSION_LENGTH;
         }
       };
 
@@ -60,21 +60,10 @@
           resetCount();
         }
         else{
-          remainingTime = WORK_SESSION_LENGTH;
+          Timer.remainingTime = WORK_SESSION_LENGTH;
           startCount();
         }
       };
-
-      var formatTime = function(){
-        var remainingMins = Math.floor(remainingTime / 60);
-        var remainingSecs = remainingTime - remainingMins * 60;
-        if (remainingSecs < 10) {
-          return remainingMins + ":0" + remainingSecs;
-        }
-        else {
-          return remainingMins + ":" + remainingSecs;
-        }
-      }
 
 
       return Timer;
