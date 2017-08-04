@@ -1,8 +1,13 @@
 <div class="centered">
   <!-- <timer id="timer" max-time-unit="'minute'" start-time="1500000" end-time="0" interval="1000" countdown="100">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer> -->
   <div class="timer">
-    <p ng-show="!home.timer.currentSession">25:00</p>
-    <p ng-show="home.timer.currentSession">{{ home.timer.remainingTime | formatTime }}</p>
+    <p ng-hide="home.timer.isOn || home.timer.breakSession">25:00</p>
+    <p ng-show="home.timer.isOn">{{ home.timer.remainingTime | formatTime }}</p>
+    <p ng-show="home.timer.breakSession && !home.timer.isOn">5:00</p>
   </div>
-  <button type="button" id="start" ng-click="home.timer.startTimer()">{{ home.timer.currentSession ? 'Reset' : 'Start' }}</button>
+  <div>
+    <button type="button" class="timerButton" ng-show="home.timer.isOn" ng-click="home.timer.startTimer()">Reset Timer</button>
+    <button type="button" class="timerButton" ng-show="!home.timer.isOn && home.timer.breakSession" ng-click="home.timer.startTimer()">Start Break</button>
+    <button type="button" class="timerButton" ng-show="!home.timer.isOn && !home.timer.workSession && !home.timer.breakSession" ng-click="home.timer.startTimer()">Start Work Session</button>
+  </div>
 </div>
