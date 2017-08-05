@@ -27,8 +27,11 @@
       Timer.remainingTime = null;
 
 
-      const WORK_SESSION_LENGTH = 1500;
-      const BREAK_SESSION_LENGTH = 300;
+      const WORK_SESSION_LENGTH = 3;
+      const SHORT_BREAK_LENGTH = 2;
+      const LONG_BREAK_LENGTH = 5;
+
+      var completedWorkSessions = 0;
 
       var countdown = null;
 
@@ -41,11 +44,17 @@
           if(Timer.remainingTime > 0){
             Timer.remainingTime--;
           }
-          else{
+          else if (completedWorkSessions !== 4){
             Timer.isOn = false;
             Timer.workSession = false;
             Timer.breakSession = true;
           }
+          else if (completedWorkSessions = 4){
+            Timer.isOn = false;
+            Timer.workSession = false;
+            Timer.breakSession = true;
+          }
+
         }, 1000)
       }
 
@@ -71,7 +80,6 @@
       var resetSession = function(){
         if(countdown){
           $interval.cancel(countdown);
-          Timer.remainingTime = WORK_SESSION_LENGTH;
         }
       };
 
@@ -86,6 +94,7 @@
           Timer.isOn = false;
           Timer.workSession = false;
           Timer.breakSession = false;
+          Timer.remainingTime = WORK_SESSION_LENGTH;
         }
         else{
           Timer.isOn = true;
@@ -93,8 +102,16 @@
             Timer.remainingTime = WORK_SESSION_LENGTH;
             startWorkSession();
           }
-          else if (Timer.workSession == false && Timer.breakSession == true){
-            Timer.remainingTime = BREAK_SESSION_LENGTH;
+          else if (Timer.workSession == false && Timer.breakSession == true && completedWorkSessions !== 4){
+            Timer.remainingTime = SHORT_BREAK_LENGTH;
+            completedWorkSessions++;
+            console.log(completedWorkSessions);
+            startBreakSession();
+          }
+          else if (Timer.workSession == false && Timer.breakSession == true && completedWorkSessions == 4){
+            Timer.remainingTime = LONG_BREAK_LENGTH;
+            completedWorkSessions = 0;
+            console.log(completedWorkSessions);
             startBreakSession();
           }
         }
