@@ -19,7 +19,6 @@
       * @type {Boolean}
       */
       Timer.breakSession = false;
-
       /**
       * @desc Current time remaining.
       * @type {Number}
@@ -31,7 +30,7 @@
       const SHORT_BREAK_LENGTH = 2;
       const LONG_BREAK_LENGTH = 5;
 
-      var completedWorkSessions = 0;
+      Timer.completedWorkSessions = 0;
 
       var countdown = null;
 
@@ -44,17 +43,13 @@
           if(Timer.remainingTime > 0){
             Timer.remainingTime--;
           }
-          else if (completedWorkSessions !== 4){
-            Timer.isOn = false;
+          else if (Timer.remainingTime <= 0 && !Timer.breakSession){
+            resetTimer();
             Timer.workSession = false;
             Timer.breakSession = true;
+            Timer.completedWorkSessions++;
+            console.log(Timer.completedWorkSessions);
           }
-          else if (completedWorkSessions = 4){
-            Timer.isOn = false;
-            Timer.workSession = false;
-            Timer.breakSession = true;
-          }
-
         }, 1000)
       }
 
@@ -64,9 +59,8 @@
             Timer.remainingTime--;
           }
           else{
-            Timer.isOn = false;
             Timer.breakSession = false;
-            resetSession();
+            resetTimer();
           }
         }, 1000)
       }
@@ -74,12 +68,13 @@
 
 
       /**
-      * @function resetSession
+      * @function resetTimer
       * @desc Resets the countdown
       */
-      var resetSession = function(){
+      var resetTimer = function(){
         if(countdown){
           $interval.cancel(countdown);
+          Timer.isOn = false;
         }
       };
 
@@ -90,11 +85,10 @@
       */
       Timer.startTimer = function(){
         if(Timer.isOn){
-          resetSession();
+          resetTimer();
           Timer.isOn = false;
           Timer.workSession = false;
           Timer.breakSession = false;
-          Timer.remainingTime = WORK_SESSION_LENGTH;
         }
         else{
           Timer.isOn = true;
@@ -102,20 +96,18 @@
             Timer.remainingTime = WORK_SESSION_LENGTH;
             startWorkSession();
           }
-          else if (Timer.workSession == false && Timer.breakSession == true && completedWorkSessions !== 4){
+          else if (Timer.workSession == false && Timer.breakSession == true && Timer.completedWorkSessions < 4){
             Timer.remainingTime = SHORT_BREAK_LENGTH;
-            completedWorkSessions++;
-            console.log(completedWorkSessions);
             startBreakSession();
           }
-          else if (Timer.workSession == false && Timer.breakSession == true && completedWorkSessions == 4){
+          else if (Timer.workSession == false && Timer.breakSession == true && Timer.completedWorkSessions == 4){
             Timer.remainingTime = LONG_BREAK_LENGTH;
-            completedWorkSessions = 0;
-            console.log(completedWorkSessions);
             startBreakSession();
+            Timer.completedWorkSessions = 0;
           }
         }
       };
+
 
 
       return Timer;

@@ -3,7 +3,8 @@
   <div class="timer">
     <p ng-hide="home.timer.isOn || home.timer.breakSession">25:00</p>
     <p ng-show="home.timer.isOn">{{ home.timer.remainingTime | formatTime }}</p>
-    <p ng-show="home.timer.breakSession && !home.timer.isOn">5:00</p>
+    <p ng-show="home.timer.breakSession && !home.timer.isOn && home.timer.completedWorkSessions != 4">5:00</p>
+    <p ng-show="home.timer.breakSession && !home.timer.isOn && home.timer.completedWorkSessions == 4">30:00</p>
   </div>
   <div>
     <button type="button" class="timerButton" ng-show="home.timer.isOn" ng-click="home.timer.startTimer()">Reset Timer</button>
