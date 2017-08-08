@@ -8,7 +8,8 @@
   </div>
   <div>
     <button type="button" class="timerButton" ng-show="home.timer.isOn" ng-click="home.timer.startTimer()">Reset Timer</button>
-    <button type="button" class="timerButton" ng-show="!home.timer.isOn && home.timer.breakSession" ng-click="home.timer.startTimer()">Start Break</button>
+    <button type="button" class="timerButton" ng-show="!home.timer.isOn && home.timer.breakSession && home.timer.completedWorkSessions != 4" ng-click="home.timer.startTimer()">Start Break</button>
+    <button type="button" class="timerButton" ng-show="!home.timer.isOn && home.timer.breakSession && home.timer.completedWorkSessions == 4" ng-click="home.timer.startTimer()">Start Long Break</button>
     <button type="button" class="timerButton" ng-show="!home.timer.isOn && !home.timer.workSession && !home.timer.breakSession" ng-click="home.timer.startTimer()">Start Work Session</button>
   </div>
 </div>

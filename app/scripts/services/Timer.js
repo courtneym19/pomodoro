@@ -26,9 +26,9 @@
       Timer.remainingTime = null;
 
 
-      const WORK_SESSION_LENGTH = 3;
-      const SHORT_BREAK_LENGTH = 2;
-      const LONG_BREAK_LENGTH = 5;
+      const WORK_SESSION_LENGTH = 1500;
+      const SHORT_BREAK_LENGTH = 300;
+      const LONG_BREAK_LENGTH = 1800;
 
       Timer.completedWorkSessions = 0;
 
