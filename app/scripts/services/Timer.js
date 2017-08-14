@@ -14,15 +14,15 @@
 
       var countdown;
 
-      var ding = new buzz.sound("/sounds/Ding.mp3", {
+      var ding = new buzz.sound("/assets/sounds/ding", {
           formats: ['mp3'],
           preload: true
       });
 
 
-      const WORK_SESSION_LENGTH = 1;
-      const SHORT_BREAK_LENGTH = 1;
-      const LONG_BREAK_LENGTH = 1;
+      const WORK_SESSION_LENGTH = 1500;
+      const SHORT_BREAK_LENGTH = 300;
+      const LONG_BREAK_LENGTH = 1800;
 
 
       /** Starts a 25:00 work session*/
@@ -33,7 +33,6 @@
           }
           else if (Timer.remainingTime <= 0 && !Timer.isBreakSession){
             ding.play();
-            console.log("ding");
             resetTimer();
             Timer.isWorkSession = false;
             Timer.isBreakSession = true;
