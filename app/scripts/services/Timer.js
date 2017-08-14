@@ -2,75 +2,62 @@
     function Timer($interval) {
       var Timer = {};
 
-      /**
-      * @desc Timer is on (isOn = true) or off (false/null).
-      * @type {Boolean}
-      */
       Timer.isOn = false;
 
-      /**
-      * @desc Work session is on (true) or off
-      * @type {Boolean}
-      */
-      Timer.workSession = false;
+      Timer.isWorkSession = false;
 
-      /**
-      * @desc Break session is on (true) or off
-      * @type {Boolean}
-      */
-      Timer.breakSession = false;
-      /**
-      * @desc Current time remaining.
-      * @type {Number}
-      */
+      Timer.isBreakSession = false;
+
       Timer.remainingTime = null;
-
-
-      const WORK_SESSION_LENGTH = 1500;
-      const SHORT_BREAK_LENGTH = 300;
-      const LONG_BREAK_LENGTH = 1800;
 
       Timer.completedWorkSessions = 0;
 
-      var countdown = null;
+      var countdown;
 
-      /**
-      * @function startCount
-      * @desc Starts the countdown
-      */
+      var ding = new buzz.sound("/sounds/Ding.mp3", {
+          formats: ['mp3'],
+          preload: true
+      });
+
+
+      const WORK_SESSION_LENGTH = 1;
+      const SHORT_BREAK_LENGTH = 1;
+      const LONG_BREAK_LENGTH = 1;
+
+
+      /** Starts a 25:00 work session*/
       var startWorkSession = function(){
         countdown = $interval(function(){
           if(Timer.remainingTime > 0){
             Timer.remainingTime--;
           }
-          else if (Timer.remainingTime <= 0 && !Timer.breakSession){
+          else if (Timer.remainingTime <= 0 && !Timer.isBreakSession){
+            ding.play();
+            console.log("ding");
             resetTimer();
-            Timer.workSession = false;
-            Timer.breakSession = true;
+            Timer.isWorkSession = false;
+            Timer.isBreakSession = true;
             Timer.completedWorkSessions++;
-            console.log(Timer.completedWorkSessions);
           }
-        }, 1000)
+        }, 1000);
       }
 
+      /**Starts a 5:00 or 30:00 break session*/
       var startBreakSession = function(){
         countdown = $interval(function(){
           if(Timer.remainingTime > 0){
             Timer.remainingTime--;
           }
           else{
-            Timer.breakSession = false;
+            ding.play();
+            Timer.isBreakSession = false;
             resetTimer();
           }
-        }, 1000)
+        }, 1000);
       }
 
 
 
-      /**
-      * @function resetTimer
-      * @desc Resets the countdown
-      */
       var resetTimer = function(){
         if(countdown){
           $interval.cancel(countdown);
@@ -79,35 +66,31 @@
       };
 
 
-      /**
-      * @function startTimer
-      * @desc Starts or resets the timer
-      */
+      /**Starts or resets the timer and tells the timer whether to start a work or break session*/
       Timer.startTimer = function(){
         if(Timer.isOn){
           resetTimer();
           Timer.isOn = false;
-          Timer.workSession = false;
-          Timer.breakSession = false;
+          Timer.isWorkSession = false;
+          Timer.isBreakSession = false;
         }
         else{
           Timer.isOn = true;
-          if (Timer.breakSession == false && Timer.workSession == false){
+          if (Timer.isBreakSession == false && Timer.isWorkSession == false){
             Timer.remainingTime = WORK_SESSION_LENGTH;
             startWorkSession();
           }
-          else if (Timer.workSession == false && Timer.breakSession == true && Timer.completedWorkSessions < 4){
+          else if (Timer.isWorkSession == false && Timer.isBreakSession == true && Timer.completedWorkSessions < 4){
             Timer.remainingTime = SHORT_BREAK_LENGTH;
             startBreakSession();
           }
-          else if (Timer.workSession == false && Timer.breakSession == true && Timer.completedWorkSessions == 4){
+          else if (Timer.isWorkSession == false && Timer.isBreakSession == true && Timer.completedWorkSessions == 4){
             Timer.remainingTime = LONG_BREAK_LENGTH;
             startBreakSession();
             Timer.completedWorkSessions = 0;
           }
         }
       };
-
 
 
       return Timer;
