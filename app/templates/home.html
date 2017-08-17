@@ -12,3 +12,16 @@
     <button type="button" class="timerButton" ng-show="!home.timer.isOn && !home.timer.isWorkSession && !home.timer.isBreakSession" ng-click="home.timer.startTimer()">Start Work Session</button>
   </div>
 </div>
+
+<div class="sidebar">
+  <div class="sidebar-nav">
+    <p id="sidebar-title">Task History</p>
+    <form name="addTask">
+      <input type="text" id="task-name" ng-model="home.newTaskName" placeholder="Enter task name" required>
+      <input type="submit" class="add-btn" value="Add task" ng-click="home.addTask()">
+    </form>
+    <ul class="task-items">
+      <li ng-repeat="task in home.tasks">{{ task.newTaskName }}</li>
+    </ul>
+  </div>
+</div>
