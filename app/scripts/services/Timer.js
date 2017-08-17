@@ -14,11 +14,10 @@
 
       var countdown;
 
-      var ding = new buzz.sound("/assets/sounds/ding", {
+      var drums = new buzz.sound("/assets/sounds/drums", {
           formats: ['mp3'],
           preload: true
       });
-
 
       const WORK_SESSION_LENGTH = 1500;
       const SHORT_BREAK_LENGTH = 300;
@@ -32,7 +31,7 @@
             Timer.remainingTime--;
           }
           else if (Timer.remainingTime <= 0 && !Timer.isBreakSession){
-            ding.play();
+            drums.play();
             resetTimer();
             Timer.isWorkSession = false;
             Timer.isBreakSession = true;
@@ -48,7 +47,7 @@
             Timer.remainingTime--;
           }
           else{
-            ding.play();
+            drums.play();
             Timer.isBreakSession = false;
             resetTimer();
           }
@@ -90,6 +89,12 @@
           }
         }
       };
+
+      // Timer.$watch(Timer.remainingTime, function(newVal){
+      //   if(newVal == 0){
+      //     ding.play();
+      //   }
+      // });
 
 
       return Timer;
