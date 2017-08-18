@@ -4,10 +4,9 @@
       this.timer = Timer;
 
       this.tasks = Task.all;
-      this.addTask = function(){
-        this.newTaskName = "";
-        Task.addTask(this.newTaskName);
-      }
+      this.addTask = Task.addTask;
+      this.newTaskName = "";
+
 
     }
 

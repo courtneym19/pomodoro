@@ -16,12 +16,12 @@
 <div class="sidebar">
   <div class="sidebar-nav">
     <p id="sidebar-title">Task History</p>
-    <form name="addTask">
+    <form name="addTask" ng-submit="home.addTask()">
       <input type="text" id="task-name" ng-model="home.newTaskName" placeholder="Enter task name" required>
-      <input type="submit" class="add-btn" value="Add task" ng-click="home.addTask()">
+      <input type="submit" class="add-btn" value="Add task">
     </form>
     <ul class="task-items">
-      <li ng-repeat="task in home.tasks">{{ task.newTaskName }}</li>
+      <li ng-repeat="task in home.tasks">{{ task.task }}</li>
     </ul>
   </div>
 </div>
