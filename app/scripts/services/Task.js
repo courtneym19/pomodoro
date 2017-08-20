@@ -7,7 +7,9 @@
     return {
       all: tasks,
       addTask: function(){
-        tasks.$add({task: this.newTaskName})
+        var form = document.getElementById('task-name');
+        tasks.$add({task: this.newTaskName, createdOn: firebase.database.ServerValue.TIMESTAMP});
+        form.value = '';
       }
     }
   }
